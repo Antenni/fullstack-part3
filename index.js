@@ -60,6 +60,20 @@ let persons = [
       res.status(204).send('Success')
       })
 
+      app.post('/api/persons', (req, res) => {
+        const id = Math.floor(Math.random() * 999)
+        const body = req.body
+
+          const person = {
+            id: id,
+            name: body.name,
+            number: body.number
+            }
+
+            persons = persons.concat(person)
+            res.json(person)
+            })
+
       const PORT = 3001
       app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`)
