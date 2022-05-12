@@ -44,12 +44,13 @@ let persons = [
 app.get('/api/persons/:id',(req, res) => {
     const id = req.params.id
     const person = persons.find(p => p.id.toString() === id)
+    
     if(person)
     {
         res.send(`<p>${person.name}</p><p>${person.number}</p>`)
     }
     else {
-      res.status(404).end()
+        res.status(404).send('ID not found');
     }
 })
 
