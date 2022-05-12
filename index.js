@@ -39,22 +39,28 @@ let persons = [
   const info = `Phonebook has info for ${persons.length} people.`
   const date = new Date()
   res.send(`<p>${info}</p>${date}`)
-})
+  })
 
-app.get('/api/persons/:id',(req, res) => {
+  app.get('/api/persons/:id',(req, res) => {
     const id = req.params.id
     const person = persons.find(p => p.id.toString() === id)
-    
+        
     if(person)
     {
-        res.send(`<p>${person.name}</p><p>${person.number}</p>`)
+      res.send(`<p>${person.name}</p><p>${person.number}</p>`)
     }
     else {
-        res.status(404).send('ID not found');
+      res.status(404).send('ID not found');
     }
-})
+    })
 
-const PORT = 3001
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
+    app.delete('/delete/persons/:id',(req, res) => {
+      const id = Number(req.params.id)
+      persons = persons.filter(person => person.id !== id)
+      res.status(204).send('Success')
+      })
+
+      const PORT = 3001
+      app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`)
+        })
