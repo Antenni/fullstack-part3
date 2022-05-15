@@ -1,8 +1,10 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const cors = require('cors')
 
 app.use(express.json())
+app.use(cors())
 
 morgan.token('POST',(req, res) => {
   JSON.stringify(req.body)
@@ -35,7 +37,12 @@ let persons = [
       id: 5,
       name: "Lloyd Christmas", 
       number: "555-123123"
-      }
+      },
+      { 
+        id: 6,
+        name: "Mike Lowrey", 
+        number: "555-69696969"
+        }
 ]
 
   app.get('/api/persons', (req, res) => {
