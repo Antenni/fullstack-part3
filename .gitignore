@@ -105,3 +105,4 @@ dist
 
 #Heroku
 node_modules
+.env
