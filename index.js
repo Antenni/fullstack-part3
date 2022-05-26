@@ -108,9 +108,16 @@ let persons = [
     
     })
 
-      app.post('/api/persons', (req, res) => {
+      app.post('/api/persons', (req, res, next) => {
         const id = Math.floor(Math.random() * 999)
         const body = req.body
+
+        if (body.content === undefined) {
+          return res.status(400).json
+          ({
+            error: 'content is missing'
+          })
+        }
 
         if(!body.name || !body.number) 
         {
@@ -134,8 +141,9 @@ let persons = [
             }
 
             person.save().then(personSaved => {
-              res.json(personSaved)
+              res.json(personSaved.toJSON())
             })
+            .catch(error => next(error))
             })
 
             const unknownEndpoint = (req, res) => {
