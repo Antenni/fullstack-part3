@@ -4,6 +4,11 @@ const morgan = require('morgan')
 const cors = require('cors')
 const Person = require('./models/person')
 require('dotenv').config()
+const {response} = require('express')
+
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 app.use(express.json())
 app.use(cors())
@@ -51,7 +56,7 @@ let persons = [
   app.get('/api/persons', (req, res) => {
     res.json(persons)
     Person.find({}).then(persons => {
-      res.json(persons.map(person => person.toJSON()))
+      response.json(persons.map(person => person.toJSON()))
     })
   })
 
@@ -80,7 +85,7 @@ let persons = [
       res.status(204).send('Success')
       })
 
-      app.post('/api/persons', (req, res) => {
+      app.post('/api/persons', (req, res, next) => {
         const id = Math.floor(Math.random() * 999)
         const body = req.body
 
@@ -109,7 +114,22 @@ let persons = [
             res.json(person)
             })
 
-      const PORT = process.env.PORT
-      app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`)
-        })
+            const errorHandler = (error, request, response, next) => {
+              console.log(error.message)
+            
+              if (error.name === 'CastError') {
+                return response.status(400).send({ error: 'malformatted id' })
+              }
+              else if (error.name === 'ValidationError') {
+                return response.status(400).send({ error: error.message })
+              }
+            
+              next(error)
+            }
+            
+            app.use(errorHandler)
+
+            const PORT = process.env.PORT
+            app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`)
+            })
