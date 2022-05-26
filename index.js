@@ -61,10 +61,13 @@ let persons = [
   })
 
   app.get('/info',(req, res) => {
-  const info = `Phonebook has info for ${persons.length} people.`
-  const date = new Date()
-  res.send(`<p>${info}</p>${date}`)
-  })
+    Person
+    .estimatedDocumentCount()
+    .then(DocumentCount => {
+      res.send('<p>Phonebook has info for ' + DocumentCount + ' people.</p>')
+      })
+      .catch(error => next(error))
+      })
 
   app.get('/api/persons/:id',(req, res, next) => {
     Person.findById(req.params.id)
