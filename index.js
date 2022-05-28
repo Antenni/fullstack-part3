@@ -6,10 +6,6 @@ const Person = require('./models/person')
 require('dotenv').config()
 const {response} = require('express')
 
-const dotenv = require("dotenv");
-
-dotenv.config();
-
 app.use(express.json())
 app.use(cors())
 app.use(express.static('build'))
@@ -78,9 +74,8 @@ let persons = [
            else
          {
          res.status(404).end()
-        }
-
-        })
+         }
+         })
       .catch(error => next(error))
 })
 
@@ -92,7 +87,7 @@ let persons = [
       number: body.number
     }
 
-    Person.findByIdAndUpdate(req.params.id, person, { new: true })
+    Person.findByIdAndUpdate(req.params.id, person, { new: true, runValidators: true })
       .then(updatedPerson => {
         response.json(updatedPerson)
       })
@@ -111,13 +106,6 @@ let persons = [
       app.post('/api/persons', (req, res, next) => {
         const id = Math.floor(Math.random() * 999)
         const body = req.body
-
-        if (body.content === undefined) {
-          return res.status(400).json
-          ({
-            error: 'content is missing'
-          })
-        }
 
         if(!body.name || !body.number) 
         {
