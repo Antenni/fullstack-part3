@@ -7,7 +7,6 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.config.js",
     "build:ui": "rm -rf build && cd ../part2-notes/ && npm run build && cp -r build ../notes-backend",
     "deploy": "git push heroku main",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
@@ -33,7 +32,6 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.16",
-    "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   },
   "resolutions": {
