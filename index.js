@@ -52,7 +52,7 @@ let persons = [
   app.get('/api/persons', (req, res) => {
     res.json(persons)
     Person.find({}).then(persons => {
-      response.json(persons.map(person => person.toJSON()))
+      res.json(persons.map(person => person.toJSON()))
     })
   })
 
@@ -89,7 +89,7 @@ let persons = [
 
     Person.findByIdAndUpdate(req.params.id, person, { new: true, runValidators: true })
       .then(updatedPerson => {
-        response.json(updatedPerson)
+        res.json(updatedPerson)
       })
       .catch(error => next(error))
   })
@@ -135,7 +135,7 @@ let persons = [
             })
 
             const unknownEndpoint = (req, res) => {
-              response.status(404).send({ error: 'unknown endpoint' })
+              res.status(404).send({ error: 'unknown endpoint' })
             }
             app.use(unknownEndpoint)
 
